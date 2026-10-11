@@ -4,340 +4,395 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartMandi - Farmer Profit Advisor</title>
-
+<title>SmartMandi | Smart Agriculture Advisor</title>
 <style>
-* { box-sizing: border-box; }
-
+:root {
+  --green:#176b3a;
+  --dark:#123d29;
+  --light:#eef7ed;
+  --gold:#f2bd50;
+  --muted:#647267;
+}
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f3f8f1;
-  color: #243526;
-  line-height: 1.6;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7f2;
+  color:#20372a;
 }
-
 header {
-  background: #176b3a;
-  color: white;
-  text-align: center;
-  padding: 28px 15px;
+  background:linear-gradient(130deg,#103e29,#238348);
+  color:white;
+  padding:30px 18px;
 }
-
-header h1 { margin: 0 0 8px; font-size: 34px; }
-header p { margin: 4px 0; }
-
-.container {
-  max-width: 900px;
-  margin: 25px auto;
-  padding: 0 15px;
+.hero { max-width:1050px; margin:auto; }
+.brand { font-size:13px; letter-spacing:2px; font-weight:bold; }
+header h1 { font-size:clamp(30px,5vw,46px); margin:12px 0; }
+header p { line-height:1.6; max-width:700px; }
+.pill {
+  display:inline-block;
+  border:1px solid #ffffff70;
+  border-radius:30px;
+  padding:6px 12px;
+  font-size:12px;
 }
-
+main { max-width:1050px; margin:24px auto; padding:0 15px; }
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
 .card {
-  background: white;
-  padding: 22px;
-  margin-bottom: 20px;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px #00000010;
+  background:white;
+  padding:21px;
+  margin-bottom:18px;
+  border-radius:15px;
+  box-shadow:0 4px 16px #183c2010;
+  min-width:0;
 }
-
-h2 { color: #176b3a; margin-top: 0; }
-
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
+h2 { color:var(--green); margin-top:0; font-size:21px; }
+h3 { margin-bottom:8px; }
+label { display:block; font-weight:bold; margin:14px 0 6px; font-size:14px; }
+input,select {
+  width:100%;
+  padding:12px;
+  border:1px solid #cbd8cc;
+  border-radius:9px;
+  background:white;
+  font-size:15px;
 }
-
-input, select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 7px;
-  border: 1px solid #b8c9ba;
-  border-radius: 8px;
-  font-size: 16px;
-  background: white;
-}
-
 button {
-  width: 100%;
-  margin-top: 20px;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  background: #176b3a;
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
+  border:0;
+  border-radius:9px;
+  background:var(--green);
+  color:white;
+  padding:13px 16px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-button:hover { background: #10532c; }
-
+button:hover { background:var(--dark); }
+.primary { width:100%; margin-top:18px; }
+.secondary { background:#e6f1e7; color:var(--green); }
+.metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.metric { background:var(--light); padding:14px; border-radius:10px; }
+.metric small { display:block; color:var(--muted); margin-bottom:7px; }
+.metric strong { font-size:clamp(16px,3vw,23px); overflow-wrap:anywhere; }
 .result {
-  padding: 15px;
-  margin-top: 12px;
-  background: #edf7ed;
-  border-left: 5px solid #176b3a;
-  border-radius: 7px;
-  overflow-wrap: anywhere;
+  border:1px solid #dbe6db;
+  border-radius:11px;
+  padding:15px;
+  margin-top:12px;
 }
-
-.result p { margin: 5px 0; }
-
-.best {
-  background: #e0f3df;
-  padding: 15px;
-  margin-top: 18px;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.forecast-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  gap: 10px;
-}
-
-.forecast-day {
-  padding: 12px 8px;
-  text-align: center;
-  background: #edf7ed;
-  border: 1px solid #c8dfc9;
-  border-radius: 8px;
-}
-
-.forecast-day strong { color: #176b3a; }
-
-.note {
-  font-size: 13px;
-  color: #59665b;
-  line-height: 1.6;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #59665b;
+.result.best { border:2px solid var(--green); background:#f0f8ef; }
+.result-title { display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+.tag { font-size:11px; background:#dcefdc; color:#14592f; padding:5px 8px; border-radius:20px; }
+.line { display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid #edf0ed; font-size:14px; }
+.line:last-child { border-bottom:0; }
+.positive { color:var(--green); }
+.warning { background:#fff6df; padding:13px; border-radius:9px; line-height:1.6; }
+.info { color:var(--muted); font-size:13px; line-height:1.6; }
+.bar-row { margin:14px 0; }
+.bar-label { display:flex; justify-content:space-between; gap:10px; font-size:13px; }
+.bar { height:10px; background:#e8eee8; border-radius:20px; overflow:hidden; margin-top:7px; }
+.fill { height:100%; background:#27834b; border-radius:20px; }
+.forecast { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:7px; }
+.day { background:var(--light); border-radius:9px; padding:11px 4px; text-align:center; }
+.day strong,.day span { display:block; }
+.day span { font-size:13px; margin-top:8px; color:var(--green); font-weight:bold; }
+.action { border-left:4px solid var(--gold); background:#fff9e9; padding:14px; border-radius:7px; line-height:1.7; }
+footer { background:#123d29; color:white; text-align:center; padding:23px 12px; font-size:13px; }
+.hidden { display:none; }
+@media(max-width:650px) {
+  .grid { grid-template-columns:1fr; }
+  .metrics { grid-template-columns:1fr; }
+  .forecast { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .card { padding:17px; }
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>🌱 SmartMandi</h1>
-  <p><strong>Farmer Profit Advisor</strong></p>
-  <p>Choose a better market. Make informed decisions.</p>
+  <div class="hero">
+    <div class="brand">AGRI INTELLIGENCE PLATFORM</div>
+    <h1>🌱 SmartMandi</h1>
+    <p>From farm to market: compare selling returns, plan dispatch,
+       understand crop loss and make smarter selling decisions.</p>
+    <span class="pill">HACKATHON PROTOTYPE · SAMPLE DATA</span>
+  </div>
 </header>
 
-<main class="container">
-
+<main>
   <section class="card">
-    <h2>About SmartMandi</h2>
-    <p>
-      Farmers need to compare market prices, transportation expenses
-      and crop spoilage before choosing where to sell their produce.
-      SmartMandi helps farmers estimate returns and compare sample markets.
-    </p>
+    <h2>01 · Your Farm Details</h2>
+    <div class="grid">
+      <div>
+        <label for="crop">Select crop</label>
+        <select id="crop">
+          <option value="Onion">Onion</option>
+          <option value="Tomato">Tomato</option>
+          <option value="Potato">Potato</option>
+        </select>
+      </div>
+      <div>
+        <label for="quantity">Harvest quantity (kg)</label>
+        <input id="quantity" type="number" min="1" value="500">
+      </div>
+      <div>
+        <label for="spoilage">Expected spoilage (%)</label>
+        <input id="spoilage" type="number" min="0" max="100" value="5">
+      </div>
+      <div>
+        <label for="capacity">Vehicle capacity (kg)</label>
+        <input id="capacity" type="number" min="1" value="500">
+      </div>
+    </div>
+    <button class="primary" id="calculate">Analyze My Harvest →</button>
+    <p class="info">Market prices and transport estimates are illustrative.
+       This prototype does not use live mandi data.</p>
   </section>
 
   <section class="card">
-    <h2>Calculate Your Expected Return</h2>
-
-    <label for="crop">Select your crop</label>
-    <select id="crop">
-      <option value="Onion">Onion</option>
-      <option value="Tomato">Tomato</option>
-      <option value="Potato">Potato</option>
-    </select>
-
-    <label for="quantity">Quantity available (kg)</label>
-    <input id="quantity" type="number" min="0.01" step="any"
-      placeholder="Example: 500">
-
-    <label for="spoilage">Expected crop spoilage (%)</label>
-    <input id="spoilage" type="number" min="0" max="100"
-      step="any" value="5">
-
-    <button type="button" onclick="calculateProfit()">
-      Compare Markets
-    </button>
-
-    <div id="results" aria-live="polite"></div>
+    <h2>02 · Your Harvest Snapshot</h2>
+    <div class="metrics">
+      <div class="metric"><small>Sellable quantity</small><strong id="sellable">475 kg</strong></div>
+      <div class="metric"><small>Potential spoilage</small><strong id="spoiled">25 kg</strong></div>
+      <div class="metric"><small>Estimated best return</small><strong id="bestReturn">₹11,050</strong></div>
+    </div>
   </section>
 
   <section class="card">
-    <h2>7-Day Price Forecast (Demo)</h2>
-    <p>
-      Illustrative price trend for demonstration only.
-      These values are not live market prices or actual predictions.
-    </p>
-    <div id="forecast" class="forecast-grid"></div>
+    <h2>03 · Market Intelligence</h2>
+    <p class="info">Markets are ranked by estimated return after spoilage and transport.</p>
+    <div id="marketResults"></div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <h2>04 · Dispatch Planner</h2>
+      <div class="metrics">
+        <div class="metric"><small>Vehicles needed</small><strong id="vehicles">1</strong></div>
+        <div class="metric"><small>Last vehicle load</small><strong id="lastLoad">500 kg</strong></div>
+        <div class="metric"><small>Load utilization</small><strong id="utilization">100%</strong></div>
+      </div>
+      <p id="dispatchAdvice" class="info"></p>
+    </div>
+    <div class="card">
+      <h2>05 · Farmer Action Plan</h2>
+      <div id="actionPlan" class="action" aria-live="polite"></div>
+      <p class="info">Suggestions are based on the sample assumptions and your entries.</p>
+    </div>
   </section>
 
   <section class="card">
-    <h2>How It Works</h2>
-    <p>1. Select a crop and enter the available quantity.</p>
-    <p>2. Estimate the percentage of crop that may spoil.</p>
-    <p>3. Compare sample prices and transportation costs.</p>
-    <p>4. Review the market with the highest estimated net return.</p>
+    <h2>06 · Compare Net Returns</h2>
+    <p class="info">The longer the bar, the higher the estimated net return among the sample markets.</p>
+    <div id="comparison"></div>
   </section>
 
   <section class="card">
-    <h2>Future Improvements</h2>
-    <p>• Integration with live agricultural market prices</p>
-    <p>• Data-based price forecasting</p>
-    <p>• Weather and market holiday information</p>
-    <p>• Location-based transportation estimates</p>
+    <h2>07 · Seven-Day Price Trend (Demo)</h2>
+    <p class="info">Illustrative percentage changes only. These are not forecasts derived from actual market data.</p>
+    <div id="forecast" class="forecast"></div>
   </section>
 
   <section class="card">
-    <p class="note">
-      Demo notice: Market prices and transport costs are illustrative
-      sample values. Prices are currently the same sample inputs for
-      all three crop selections; they are not crop-specific live data.
-      Actual returns may differ. The estimate does not include every
-      possible farming or selling expense.
-    </p>
+    <h2>How SmartMandi Helps</h2>
+    <div class="line"><span>Market intelligence</span><strong>Compare sample offers</strong></div>
+    <div class="line"><span>Post-harvest awareness</span><strong>Estimate spoilage loss</strong></div>
+    <div class="line"><span>Dispatch optimization</span><strong>Estimate vehicle loads</strong></div>
+    <div class="line"><span>Decision support</span><strong>Rank net returns</strong></div>
+    <p class="info">Future development: integrate verified mandi prices, location-based transport rates,
+      weather data and a validated forecasting model.</p>
   </section>
 
+  <section class="card">
+    <p class="info"><strong>Prototype disclaimer:</strong> All prices, transport charges and trend percentages
+      are sample values for demonstration. The same sample prices are used for all crops.
+      Real results depend on market conditions, quality, commissions, loading costs and other expenses.
+      Confirm actual prices and transport costs before making a selling decision.</p>
+  </section>
 </main>
 
-<footer>
-  SmartMandi | Agricultural Market Intelligence &amp; Dispatch Optimization
-</footer>
+<footer>SmartMandi · Agricultural Market Intelligence &amp; Dispatch Optimization</footer>
 
 <script>
-function calculateProfit() {
+const marketData = {
+  Onion: [
+    {name:"Local Mandi",price:20,transport:100},
+    {name:"Regional Mandi A",price:24,transport:350},
+    {name:"Regional Mandi B",price:22,transport:180}
+  ],
+  Tomato: [
+    {name:"Local Mandi",price:20,transport:100},
+    {name:"Regional Mandi A",price:24,transport:350},
+    {name:"Regional Mandi B",price:22,transport:180}
+  ],
+  Potato: [
+    {name:"Local Mandi",price:20,transport:100},
+    {name:"Regional Mandi A",price:24,transport:350},
+    {name:"Regional Mandi B",price:22,transport:180}
+  ]
+};
+
+const demoTrend = [0,2,3,1,4,3,5];
+
+const money = value => "₹" + value.toLocaleString("en-IN", {
+  maximumFractionDigits:2,
+  minimumFractionDigits:2
+});
+
+function makeLine(label,value) {
+  const line = document.createElement("div");
+  line.className = "line";
+  const left = document.createElement("span");
+  left.textContent = label;
+  const right = document.createElement("strong");
+  right.textContent = value;
+  line.append(left,right);
+  return line;
+}
+
+function calculate() {
+  const crop = document.getElementById("crop").value;
   const quantity = Number(document.getElementById("quantity").value);
   const spoilage = Number(document.getElementById("spoilage").value);
-  const crop = document.getElementById("crop").value;
-  const results = document.getElementById("results");
+  const capacity = Number(document.getElementById("capacity").value);
 
-  results.replaceChildren();
-
-  if (
-    document.getElementById("quantity").value.trim() === "" ||
-    !Number.isFinite(quantity) ||
-    quantity <= 0 ||
-    document.getElementById("spoilage").value.trim() === "" ||
-    !Number.isFinite(spoilage) ||
-    spoilage < 0 ||
-    spoilage > 100
-  ) {
-    results.textContent =
-      "Please enter a quantity greater than zero and spoilage between 0 and 100%.";
+  if (!Number.isFinite(quantity) || quantity <= 0 ||
+      !Number.isFinite(capacity) || capacity <= 0 ||
+      !Number.isFinite(spoilage) || spoilage < 0 || spoilage > 100) {
+    alert("Enter a quantity and vehicle capacity greater than zero, and spoilage from 0 to 100%.");
     return;
   }
 
-  // Illustrative sample market data, not live prices.
-  const markets = [
-    { name: "Local Mandi", price: 20, transport: 100 },
-    { name: "Regional Mandi A", price: 24, transport: 350 },
-    { name: "Regional Mandi B", price: 22, transport: 180 }
-  ];
+  const sellable = quantity * (1-spoilage/100);
+  const spoiled = quantity-sellable;
 
-  const sellableQuantity = quantity * (1 - spoilage / 100);
-  const spoiledQuantity = quantity - sellableQuantity;
-
-  const estimates = markets.map(function(market) {
-    const grossRevenue = quantity * market.price;
-    const spoilageLoss = spoiledQuantity * market.price;
-    const net = sellableQuantity * market.price - market.transport;
-
+  const estimates = marketData[crop].map(m => {
+    const gross = sellable*m.price;
+    const loss = spoiled*m.price;
     return {
-      name: market.name,
-      price: market.price,
-      transport: market.transport,
-      grossRevenue: grossRevenue,
-      spoilageLoss: spoilageLoss,
-      net: net
+      ...m,
+      gross,
+      loss,
+      net:gross-m.transport
     };
-  });
+  }).sort((a,b) => b.net-a.net);
 
-  estimates.sort(function(a, b) {
-    return b.net - a.net;
-  });
+  document.getElementById("sellable").textContent =
+    sellable.toLocaleString("en-IN",{maximumFractionDigits:2})+" kg";
+  document.getElementById("spoiled").textContent =
+    spoiled.toLocaleString("en-IN",{maximumFractionDigits:2})+" kg";
+  document.getElementById("bestReturn").textContent = money(estimates[0].net);
 
-  const heading = document.createElement("h3");
-  heading.textContent = "Estimated Results for " + crop;
-  results.appendChild(heading);
+  const marketResults = document.getElementById("marketResults");
+  marketResults.replaceChildren();
 
-  const quantityInfo = document.createElement("p");
-  quantityInfo.textContent =
-    "Original quantity: " + quantity.toLocaleString("en-IN") +
-    " kg | Sellable: " + sellableQuantity.toFixed(2) +
-    " kg | Spoiled: " + spoiledQuantity.toFixed(2) + " kg";
-  results.appendChild(quantityInfo);
+  estimates.forEach((m,index) => {
+    const box = document.createElement("div");
+    box.className = "result"+(index===0?" best":"");
 
-  estimates.forEach(function(market) {
-    const item = document.createElement("div");
-    item.className = "result";
-
+    const title = document.createElement("div");
+    title.className = "result-title";
     const name = document.createElement("strong");
-    name.textContent = market.name;
-    item.appendChild(name);
+    name.textContent = (index+1)+". "+m.name;
+    title.appendChild(name);
 
-    const details = document.createElement("div");
+    if (index===0) {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = "HIGHEST SAMPLE RETURN";
+      title.appendChild(tag);
+    }
 
-    const rows = [
-      ["Sample price", "₹" + market.price + "/kg"],
-      ["Gross Revenue", "₹" + market.grossRevenue.toFixed(2)],
-      ["Spoilage Loss", "₹" + market.spoilageLoss.toFixed(2)],
-      ["Transport Cost", "₹" + market.transport.toFixed(2)],
-      ["Estimated Net Return", "₹" + market.net.toFixed(2)]
-    ];
-
-    rows.forEach(function(row) {
-      const line = document.createElement("p");
-      line.textContent = row[0] + ": " + row[1];
-      details.appendChild(line);
-    });
-
-    item.appendChild(details);
-    results.appendChild(item);
+    box.appendChild(title);
+    box.appendChild(makeLine("Sample price",money(m.price)+"/kg"));
+    box.appendChild(makeLine("Revenue from sellable crop",money(m.gross)));
+    box.appendChild(makeLine("Estimated value of spoiled crop",money(m.loss)));
+    box.appendChild(makeLine("Transport cost",money(m.transport)));
+    box.appendChild(makeLine("Estimated net return",money(m.net)));
+    marketResults.appendChild(box);
   });
 
-  const recommendation = document.createElement("div");
-  recommendation.className = "best";
-  recommendation.textContent =
-    "Best option among these sample markets: " +
-    estimates[0].name +
-    " (estimated net return ₹" + estimates[0].net.toFixed(2) + "). " +
-    "Verify actual market prices and transport costs before selling.";
-  results.appendChild(recommendation);
+  const vehicles = Math.ceil(quantity/capacity);
+  const lastLoad = quantity%capacity===0 ? capacity : quantity%capacity;
+  const utilization = lastLoad/capacity*100;
+
+  document.getElementById("vehicles").textContent = vehicles;
+  document.getElementById("lastLoad").textContent =
+    lastLoad.toLocaleString("en-IN",{maximumFractionDigits:2})+" kg";
+  document.getElementById("utilization").textContent =
+    utilization.toFixed(1)+"%";
+
+  document.getElementById("dispatchAdvice").textContent =
+    "You need "+vehicles+" vehicle load(s) at the entered capacity. " +
+    "This is a capacity calculation, not a confirmed transport booking.";
+
+  const action = document.getElementById("actionPlan");
+  action.replaceChildren();
+
+  const advice = document.createElement("p");
+  if (sellable===0) {
+    advice.textContent =
+      "All entered produce is marked as spoiled. Review crop quality and the spoilage estimate before using market comparisons.";
+  } else if (spoilage>=20) {
+    advice.textContent =
+      "Your spoilage estimate is high. Check crop quality, handling and how quickly the produce can reach a buyer. Compare actual offers before dispatch.";
+  } else if (estimates[0].net<=0) {
+    advice.textContent =
+      "The best sample return is not positive after the estimated transport charge. Recheck prices and transport quotes before deciding.";
+  } else {
+    advice.textContent =
+      estimates[0].name+" has the highest estimated return in this sample. Verify its current price, quality requirements and transport quote before dispatch.";
+  }
+  action.appendChild(advice);
+
+  const saving = document.createElement("p");
+  saving.textContent =
+    "Difference between the top two sample options: "+money(estimates[0].net-estimates[1].net)+".";
+  action.appendChild(saving);
+
+  const comparison = document.getElementById("comparison");
+  comparison.replaceChildren();
+  const maxNet = Math.max(1,...estimates.map(m=>Math.max(0,m.net)));
+
+  estimates.forEach(m => {
+    const row = document.createElement("div");
+    row.className = "bar-row";
+    const labels = document.createElement("div");
+    labels.className = "bar-label";
+    const name = document.createElement("strong");
+    name.textContent = m.name;
+    const amount = document.createElement("span");
+    amount.textContent = money(m.net);
+    labels.append(name,amount);
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    const fill = document.createElement("div");
+    fill.className = "fill";
+    fill.style.width = Math.max(0,m.net)/maxNet*100+"%";
+    bar.appendChild(fill);
+    row.append(labels,bar);
+    comparison.appendChild(row);
+  });
 }
 
-// Demonstration values only — not live market forecasts.
-const forecastDays = [
-  { day: "Day 1", change: 0 },
-  { day: "Day 2", change: 2 },
-  { day: "Day 3", change: 3 },
-  { day: "Day 4", change: 1 },
-  { day: "Day 5", change: 4 },
-  { day: "Day 6", change: 3 },
-  { day: "Day 7", change: 5 }
-];
+function renderForecast() {
+  const forecast = document.getElementById("forecast");
+  demoTrend.forEach((change,index) => {
+    const day = document.createElement("div");
+    day.className = "day";
+    const title = document.createElement("strong");
+    title.textContent = "Day "+(index+1);
+    const value = document.createElement("span");
+    value.textContent = change===0 ? "Baseline" : "+"+change+"%";
+    day.append(title,value);
+    forecast.appendChild(day);
+  });
+}
 
-const forecast = document.getElementById("forecast");
-
-forecastDays.forEach(function(item) {
-  const day = document.createElement("div");
-  day.className = "forecast-day";
-
-  const title = document.createElement("strong");
-  title.textContent = item.day;
-
-  const value = document.createElement("p");
-  value.textContent =
-    item.change === 0 ? "Baseline" : "+" + item.change + "%";
-
-  day.appendChild(title);
-  day.appendChild(value);
-  forecast.appendChild(day);
-});
+document.getElementById("calculate").addEventListener("click",calculate);
+renderForecast();
+calculate();
 </script>
-
 </body>
 </html>
