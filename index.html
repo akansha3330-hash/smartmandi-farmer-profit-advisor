@@ -239,15 +239,14 @@ function calculateProfit() {
     item.appendChild(name);
 
     const details = document.createElement("p");
-    details.textContent =
-      "Sample price: ₹" + market.price +
-      "/kg | Transport: ₹" + market.transport +
-      " | Estimated net return: ₹" +
-      market.net.toLocaleString("en-IN", {
-        maximumFractionDigits: 2
-      });
+      details.textContent =
+  "Price: ₹" + market.price + "/kg" +
+  " | Gross Revenue: ₹" + market.grossRevenue.toFixed(2) +
+  " | Spoilage Loss: ₹" + market.spoilageLoss.toFixed(2) +
+  " | Transport Cost: ₹" + market.transport +
+  " | Net Profit: ₹" + market.net.toFixed(2);
 
-    item.appendChild(details);
+item.appendChild(details);
     results.appendChild(item);
   });
 
@@ -269,7 +268,7 @@ function calculateProfit() {
     { day: "Day 6", change: 3 },
     { day: "Day 7", change: 5 }
   ];
-
+estimats.map
   const forecastSection = document.createElement("section");
   forecastSection.innerHTML = `
     <h2>7-Day Price Forecast (Demo)</h2>
