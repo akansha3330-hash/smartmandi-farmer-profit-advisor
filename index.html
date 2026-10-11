@@ -211,11 +211,13 @@ function calculateProfit() {
 
   const estimates = markets.map(function(market) {
     return {
-      name: market.name,
-      price: market.price,
-      transport: market.transport,
-      net: sellableQuantity * market.price - market.transport
-    };
+  name: market.name,
+  price: market.price,
+  transport: market.transport,
+  grossRevenue: quantity * market.price,
+  spoilageLoss: (quantity - sellableQuantity) * market.price,
+  net: sellableQuantity * market.price - market.transport
+};
   });
 
   estimates.sort(function(a, b) {
