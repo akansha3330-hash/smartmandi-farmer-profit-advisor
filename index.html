@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartMandi - Farmer Profit Advisor</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f8f1;
+  color: #243526;
+}
+
+header {
+  background: #176b3a;
+  color: white;
+  text-align: center;
+  padding: 28px 15px;
+}
+
+header h1 {
+  margin: 0 0 10px;
+  font-size: 32px;
+}
+
+header p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 850px;
+  margin: 25px auto;
+  padding: 0 15px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px #00000010;
+}
+
+h2 {
+  color: #176b3a;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border: 1px solid #b8c9ba;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #176b3a;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #10532c;
+}
+
+.result {
+  padding: 14px;
+  margin-top: 12px;
+  background: #edf7ed;
+  border-left: 5px solid #176b3a;
+  border-radius: 7px;
+}
+
+.note {
+  font-size: 13px;
+  color: #59665b;
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #59665b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌱 SmartMandi</h1>
+  <p>Farmer Profit Advisor</p>
+  <p>Choose a better market. Make informed decisions.</p>
+</header>
+
+<main class="container">
+
+  <section class="card">
+    <h2>About SmartMandi</h2>
+    <p>
+      Farmers need to compare market prices, transportation expenses
+      and crop spoilage before choosing where to sell their produce.
+      SmartMandi estimates the net return from different markets.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Calculate Your Expected Profit</h2>
+
+    <label for="crop">Select your crop</label>
+    <select id="crop">
+      <option value="Onion">Onion</option>
+      <option value="Tomato">Tomato</option>
+      <option value="Potato">Potato</option>
+    </select>
+
+    <label for="quantity">Quantity available (kg)</label>
+    <input id="quantity" type="number" min="1"
+      placeholder="Example: 500">
+
+    <label for="spoilage">Expected crop spoilage (%)</label>
+    <input id="spoilage" type="number" min="0" max="100"
+      value="5">
+
+    <button onclick="calculateProfit()">
+      Compare Markets
+    </button>
+
+    <div id="results" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>How It Works</h2>
+    <p>1. Enter the crop and quantity.</p>
+    <p>2. Estimate how much crop may spoil.</p>
+    <p>3. Compare the estimated returns after transport costs.</p>
+    <p>4. Review the market with the highest estimated return.</p>
+  </section>
+
+  <section class="card">
+    <h2>Future Improvements</h2>
+    <p>• Live agricultural market prices</p>
+    <p>• Short-term price forecasting for 3–7 days</p>
+    <p>• Weather and market holiday information</p>
+    <p>• More realistic transportation cost estimates</p>
+  </section>
+
+  <section class="card">
+    <p class="note">
+      Demo notice: All market prices and transport costs below
+      are illustrative sample values, not live market data.
+      The result is an estimated net return, not guaranteed profit.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  SmartMandi | Agricultural Market Intelligence
+</footer>
+
+<script>
+function calculateProfit() {
+  const quantity = Number(
+    document.getElementById("quantity").value
+  );
+  const spoilage = Number(
+    document.getElementById("spoilage").value
+  );
+  const crop = document.getElementById("crop").value;
+  const results = document.getElementById("results");
+
+  if (!Number.isFinite(quantity) || quantity <= 0 ||
+      !Number.isFinite(spoilage) ||
+      spoilage < 0 || spoilage > 100) {
+    results.textContent =
+      "Please enter a valid quantity and spoilage percentage.";
+    return;
+  }
+
+  const markets = [
+    { name: "Local Mandi", price: 20, transport: 100 },
+    { name: "Regional Mandi A", price: 24, transport: 350 },
+    { name: "Regional Mandi B", price: 22, transport: 180 }
+  ];
+
+  const sellableQuantity = quantity * (1 - spoilage / 100);
+
+  const estimates = markets.map(function(market) {
+    return {
+      name: market.name,
+      price: market.price,
+      transport: market.transport,
+      net: sellableQuantity * market.price - market.transport
+    };
+  });
+
+  estimates.sort(function(a, b) {
+    return b.net - a.net;
+  });
+
+  results.replaceChildren();
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Estimated results for " + crop;
+  results.appendChild(heading);
+
+  estimates.forEach(function(market) {
+    const item = document.createElement("div");
+    item.className = "result";
+
+    const name = document.createElement("strong");
+    name.textContent = market.name;
+    item.appendChild(name);
+
+    const details = document.createElement("p");
+    details.textContent =
+      "Sample price: ₹" + market.price +
+      "/kg | Transport: ₹" + market.transport +
+      " | Estimated net return: ₹" +
+      market.net.toLocaleString("en-IN", {
+        maximumFractionDigits: 2
+      });
+
+    item.appendChild(details);
+    results.appendChild(item);
+  });
+
+  const recommendation = document.createElement("p");
+  recommendation.textContent =
+    "Best option among these sample markets: " +
+    estimates[0].name +
+    ". Verify actual prices and transport costs before selling.";
+  results.appendChild(recommendation);
+}
+</script>
+
+</body>
+</html>
