@@ -256,7 +256,33 @@ function calculateProfit() {
     ". Verify actual prices and transport costs before selling.";
   results.appendChild(recommendation);
 }
-</script>
+  
+  // Demo price forecast — illustrative values, not live market data
+  const forecastDays = [
+    { day: "Day 1", change: 0 },
+    { day: "Day 2", change: 2 },
+    { day: "Day 3", change: 3 },
+    { day: "Day 4", change: 1 },
+    { day: "Day 5", change: 4 },
+    { day: "Day 6", change: 3 },
+    { day: "Day 7", change: 5 }
+  ];
 
+  const forecastSection = document.createElement("section");
+  forecastSection.innerHTML = `
+    <h2>7-Day Price Forecast (Demo)</h2>
+    <p>Illustrative trend only — not a real market prediction.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      ${forecastDays.map(item => `
+        <div style="padding:12px;border:1px solid #ddd;border-radius:8px;">
+          <strong>${item.day}</strong>
+          <p>${item.change === 0 ? "Baseline" : "+" + item.change + "%"}</p>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  document.body.appendChild(forecastSection);
+</script>
 </body>
 </html>
